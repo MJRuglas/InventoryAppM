@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Bookstore Inventory</string>
+
+    <string name="action_insert_dummy_data">Dummy Data</string>
+
+    <string name="action_delete_all_entries">Delete All Entries</string>
+
+    <string name="action_save">Delete All Entries</string>
+
+    <string name="action_delete">Delete All Entries</string>
+
+</resources>
