@@ -5,8 +5,74 @@
 
     <string name="action_delete_all_entries">Delete All Entries</string>
 
-    <string name="action_save">Delete All Entries</string>
+    <string name="action_save">Save</string>
 
     <string name="action_delete">Delete All Entries</string>
+
+    <string name="entry_delete">Delete Entry</string>
+
+    <string name="empty_view_title_text">It\'s a bit lonely here! \n
+        Start by entering book info :)</string>
+
+    <string name="empty_view_subtitle_text">Click on the button to add a book.</string>
+
+    <string name="product_info">PRODUCT INFORMATION</string>
+
+    <string name="product_name">Product Name</string>
+
+    <string name="product_price">Product Price</string>
+
+    <string name="product_quantity">Product Quantity</string>
+
+    <string name="supplier_name">Supplier Name</string>
+
+    <string name="supplier_phone">Supplier Phone Number</string>
+
+    <string name="phone">5555555555</string>
+
+    <string name="inventory_entry_title_new_book">New Entry</string>
+
+    <string name="inventory_edit_title_new_book">Edit Book Entry</string>
+
+    <string name="editor_insert_book_successful">Insert Book Successful</string>
+
+    <string name="editor_insert_book_failed">Insert Book Failed</string>
+
+    <string name="editor_update_book_successful">Update Book Successful</string>
+
+    <string name="editor_update_book_failed">Update Book Failed</string>
+
+    <string name="editor_delete_book_successful">Delete Book Successful</string>
+
+    <string name="editor_delete_book_failed">Delete Book Failed</string>
+
+    <string name="unsaved_changes_dialog_msg">Unsaved Changes</string>
+
+    <string name="discard">Discard Changes</string>
+
+    <string name="keep_editing">Keep Editing</string>
+
+    <string name="cancel">Cancel</string>
+
+    <string name="delete_dialog_msg">Delete</string>
+
+    <string name="delete">Delete</string>
+
+    <string name="require">Please fill in the blank fields.</string>
+
+    <string name="supplier_call">Call Supplier</string>
+
+    <string name="out_of_stock">Out of Stock</string>
+
+    <string name="sale_button">Sale Button</string>
+
+    <string name="corners">Corners</string>
+
+    <string name="unknown_quantity">Unknown Quantity</string>
+
+    <string name="sale_button_disabled">Sale Button Disabled</string>
+
+    <string name="corners_disabled">Corners Disabled</string>
+
 
 </resources>

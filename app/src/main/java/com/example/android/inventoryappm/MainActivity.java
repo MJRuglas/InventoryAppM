@@ -1,25 +1,38 @@
 package com.example.android.inventoryappm;
 
+import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-
-import com.example.android.inventoryappm.data.Inventory;
-import com.example.android.inventoryappm.data.InventoryDbHelper;
 import com.example.android.inventoryappm.data.InventoryContract.inventory;
+import com.example.android.inventoryappm.data.InventoryDbHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private InventoryDbHelper mDbHelper;
+
+    /** create data loader identifier*/
+    private static final int INVENTORY_LOADER = 0;
+
+    /** create adapter */
+    InventoryCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,83 +51,43 @@ public class MainActivity extends AppCompatActivity {
 
         mDbHelper = new InventoryDbHelper(this);
 
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
-    }
+        // Find the ListView which will be populated with the pet data
+        ListView bookListView = findViewById(R.id.list);
 
-    private void displayDatabaseInfo() {
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        bookListView.setEmptyView(emptyView);
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                inventory._ID,
-                inventory.COLUMN_PRODUCT_NAME,
-                inventory.COLUMN_PRODUCT_PRICE,
-                inventory.COLUMN_PRODUCT_QUANTITY,
-                inventory.COLUMN_SUPPLIER_NAME,
-                inventory.COLUMN_PHONE_NUMBER};
+        // Setup an Adapter to create a list item for each row of pet data in the Cursor.
+        // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
+        mCursorAdapter = new InventoryCursorAdapter(this, null);
+        bookListView.setAdapter(mCursorAdapter);
 
-        // Perform a query on the pets table
-        Cursor cursor = db.query(
-                inventory.TABLE_NAME,   // The table to query
-                projection,            // The columns to return
-                null,                  // The columns for the WHERE clause
-                null,                  // The values for the WHERE clause
-                null,                  // Don't group the rows
-                null,                  // Don't filter by row groups
-                null);                   // The sort order
+        // Setup the item click listener
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // Create new intent to go to {@link EditorActivity}
+                Intent intent = new Intent(MainActivity.this, EntryActivity.class);
 
-        TextView displayView = (TextView) findViewById(R.id.inventory_textView);
+                // Form the content URI that represents the specific pet that was clicked on,
+                // by appending the "id" (passed as input to this method) onto the
+                // {@link PetEntry#CONTENT_URI}.
+                // For example, the URI would be "content://com.example.android.pets/pets/2"
+                // if the pet with ID 2 was clicked on.
+                Uri currentBookUri = ContentUris.withAppendedId(inventory.CONTENT_URI, id);
 
-        try {
-            // Create a header in the Text View that looks like this:
-            //
-            // The pets table contains <number of rows in Cursor>
-            displayView.setText("The books table contains " + cursor.getCount() + " books.\n\n");
-            displayView.append(inventory._ID + " - " +
-                    inventory.COLUMN_PRODUCT_NAME + " - " +
-                    inventory.COLUMN_PRODUCT_PRICE + " - " +
-                    inventory.COLUMN_PRODUCT_QUANTITY + " - " +
-                    inventory.COLUMN_SUPPLIER_NAME + " - " +
-                    inventory.COLUMN_PHONE_NUMBER + "\n");
+                // Set the URI on the data field of the intent
+                intent.setData(currentBookUri);
 
-            // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(inventory._ID);
-            int nameColumnIndex = cursor.getColumnIndex(inventory.COLUMN_PRODUCT_NAME);
-            int priceColumnIndex = cursor.getColumnIndex(inventory.COLUMN_PRODUCT_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(inventory.COLUMN_PRODUCT_QUANTITY);
-            int supplierColumnIndex = cursor.getColumnIndex(inventory.COLUMN_SUPPLIER_NAME);
-            int phoneColumnIndex = cursor.getColumnIndex(inventory.COLUMN_PHONE_NUMBER);
-
-            // Iterate through all the returned rows in the cursor
-            while (cursor.moveToNext()) {
-                // Use that index to extract the String or Int value of the word
-                // at the current row the cursor is on.
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                int currentPrice = cursor.getInt(priceColumnIndex);
-                int currentQuantity = cursor.getInt(quantityColumnIndex);
-                String currentSupplier = cursor.getString(supplierColumnIndex);
-                int currentPhone = cursor.getInt(phoneColumnIndex);
-                // Display the values from each column of the current row in the cursor in the TextView
-                displayView.append(("\n" + currentID + " - " +
-                        currentName + " - " +
-                        currentPrice + " - " +
-                        currentQuantity + " - " +
-                        currentSupplier + " - " +
-                        currentPhone));
+                // Launch the {@link EditorActivity} to display the data for the current pet.
+                startActivity(intent);
             }
-        } finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
-            cursor.close();
-        }
+        });
+
+        // Kick off the loader
+        getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
     }
 
     /**
@@ -124,8 +97,7 @@ public class MainActivity extends AppCompatActivity {
         // Gets the database in write mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        // Create a ContentValues object where column names are the keys,
-        // and Toto's pet attributes are the values.
+        // Create a ContentValues object where column names are the keys
         ContentValues values = new ContentValues();
         values.put(inventory.COLUMN_PRODUCT_NAME, "The New Human Revolution Vol. 30");
         values.put(inventory.COLUMN_PRODUCT_PRICE, 8.00);
@@ -140,7 +112,14 @@ public class MainActivity extends AppCompatActivity {
         // this is set to "null", then the framework will not insert a row when
         // there are no values).
         // The third argument is the ContentValues object containing the info for Toto.
-        long newRowId = db.insert(inventory.TABLE_NAME, null, values);
+        Uri newUri = getContentResolver().insert(inventory.CONTENT_URI, values);
+    }
+
+    /**
+     * Helper method to delete all pets in the database.
+     */
+    private void deleteAllPets() {
+        int rowsDeleted = getContentResolver().delete(inventory.CONTENT_URI, null, null);
     }
 
     @Override
@@ -158,14 +137,42 @@ public class MainActivity extends AppCompatActivity {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
                 insertBook();
-                displayDatabaseInfo();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                // Do nothing for now
+                deleteAllPets();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // Define a projection that specifies the columns from the table we care about.
+        String[] projection = {
+                inventory._ID,
+                inventory.COLUMN_PRODUCT_NAME,
+                inventory.COLUMN_PRODUCT_PRICE };
+
+        // This loader will execute the ContentProvider's query method on a background thread
+        return new CursorLoader(this,   // Parent activity context
+                inventory.CONTENT_URI,   // Provider content URI to query
+                projection,             // Columns to include in the resulting Cursor
+                null,                   // No selection clause
+                null,                   // No selection arguments
+                null);                  // Default sort order
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // Update {@link PetCursorAdapter} with this new cursor containing updated pet data
+        mCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // Callback called when the data needs to be deleted
+        mCursorAdapter.swapCursor(null);
     }
 
 }

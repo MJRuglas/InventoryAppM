@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,91 +8,148 @@
     tools:context=".EntryActivity">
 
 
+    <TextView
+        android:id="@+id/inventory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/product_info"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="PRODUCT INFORMATION" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingTop="0dp">
+
         <TextView
-            android:id="@+id/inventory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="PRODUCT INFORMATION"
-            tools:text="PRODUCT INFORMATION" />
+            android:text="@string/product_name" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="0dp"
-            android:paddingTop="0dp"
-            android:paddingLeft="20dp"
-            android:orientation="vertical">
+        <EditText
+            android:id="@+id/enter_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="@string/product_name"
+            android:inputType="textCapWords" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Product Name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_price" />
 
-            <EditText
-                android:id="@+id/enter_product_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="product name"
-                android:inputType="textCapWords" />
+        <EditText
+            android:id="@+id/enter_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="@string/product_price"
+            android:inputType="number" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Product Price"/>
-
-            <EditText
-                android:id="@+id/enter_product_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="product price"
-                android:inputType="textCapWords" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/product_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quantity"/>
+                android:text="@string/product_quantity" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+
+                <Button
+                    android:id="@+id/decrease_button"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:background="@color/colorAccent"
+                    android:layout_margin="10dp"
+                    android:text="-"
+                    android:onClick="substractOne"
+                    android:textColor="#fff"
+                    tools:ignore="OnClick" />
 
             <EditText
                 android:id="@+id/enter_product_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="quantity"
-                android:inputType="textCapWords" />
+                android:hint="@string/product_quantity"
+                android:inputType="number"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Supplier Name"/>
+                <Button
+                    android:id="@+id/increase_button"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorAccent"
+                    android:text="+"
+                    android:onClick="increaseOne"
+                    android:textColor="#fff"
+                    tools:ignore="OnClick" />
 
-            <EditText
-                android:id="@+id/enter_product_supplier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="supplier name"
-                android:inputType="textCapWords" />
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phone Number"/>
+        </RelativeLayout>
 
-            <EditText
-                android:id="@+id/enter_supplier_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="555-555-5555"
-                android:inputType="number" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/supplier_name" />
+
+        <EditText
+            android:id="@+id/enter_product_supplier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="@string/supplier_name"
+            android:inputType="textCapWords" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/supplier_phone" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/enter_supplier_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="@string/phone"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/phone_button"
+            android:layout_width="85dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/colorAccent"
+            android:text="@string/supplier_call"
+            android:textSize="12sp"
+            android:focusable="false"
+            android:textColor="#fff"/>
 
         </LinearLayout>
 
+    </LinearLayout>
 
 
 </android.support.v7.widget.LinearLayoutCompat>

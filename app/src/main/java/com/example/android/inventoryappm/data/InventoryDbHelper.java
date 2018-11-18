@@ -7,7 +7,6 @@ import android.util.Log;
 
 
 import com.example.android.inventoryappm.data.InventoryContract.inventory;
-import com.example.android.inventoryappm.data.Inventory;
 
 
 public class InventoryDbHelper extends SQLiteOpenHelper {
@@ -38,7 +37,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                 + inventory.COLUMN_PRODUCT_PRICE + " INTEGER,"
                 + inventory.COLUMN_PRODUCT_QUANTITY + " INTEGER,"
                 + inventory.COLUMN_SUPPLIER_NAME + " TEXT,"
-                + inventory.COLUMN_PHONE_NUMBER + " INTEGER );";
+                + inventory.COLUMN_PHONE_NUMBER + " INTEGER )";
 
         //Execute the SQL statement
         db.execSQL(SQL_CREATE_INVENTORY_TABLE);
