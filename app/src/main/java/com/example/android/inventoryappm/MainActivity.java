@@ -17,8 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.inventoryappm.data.InventoryContract.inventory;
 import com.example.android.inventoryappm.data.InventoryDbHelper;
@@ -152,7 +150,9 @@ public class MainActivity extends AppCompatActivity implements
         String[] projection = {
                 inventory._ID,
                 inventory.COLUMN_PRODUCT_NAME,
-                inventory.COLUMN_PRODUCT_PRICE };
+                inventory.COLUMN_PRODUCT_PRICE,
+                inventory.COLUMN_PRODUCT_QUANTITY,
+                inventory.COLUMN_PHONE_NUMBER};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
