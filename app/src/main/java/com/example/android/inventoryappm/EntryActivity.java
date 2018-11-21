@@ -14,14 +14,12 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.inventoryappm.data.InventoryContract.inventory;
@@ -38,9 +36,6 @@ public class EntryActivity extends AppCompatActivity implements
 
     private final int MAXIMUM_QUANTITY_VALUE = 999;
 
-    /**
-     * Button Variables
-     */
 
     /**
      * Content URI for existing book entry
@@ -84,7 +79,7 @@ public class EntryActivity extends AppCompatActivity implements
      * CALL SUPPLIER BUTTON
      */
 
-    private String supplierPhone;
+    private Button supplierPhone;
 
 
     /**
@@ -137,6 +132,7 @@ public class EntryActivity extends AppCompatActivity implements
 
         substractOne = findViewById(R.id.decrease_button);
         increaseOne = findViewById(R.id.increase_button);
+        supplierPhone = findViewById(R.id.phone_button);
 
         substractOne.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,12 +178,17 @@ public class EntryActivity extends AppCompatActivity implements
         mSupplierEditText.setOnTouchListener(mTouchListener);
         mPhoneEditText.setOnTouchListener(mTouchListener);
 
-    }
 
-    private void callSupplier(){
-        Intent supplierNumberIntent = new Intent(Intent.ACTION_DIAL);
-        supplierNumberIntent.setData(Uri.parse("tel:" + supplierPhone));
-        startActivity(supplierNumberIntent);
+        supplierPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent supplierNumberIntent = new Intent(Intent.ACTION_DIAL);
+                supplierNumberIntent.setData(Uri.parse("tel:" + supplierPhone));
+                startActivity(supplierNumberIntent);
+
+            }
+        });
+
     }
 
     public boolean isValidBook() {

@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +61,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = view.findViewById(R.id.name);
-        TextView summaryTextView = view.findViewById(R.id.summary);
+        TextView summaryTextView = view.findViewById(R.id.product_quantity);
         TextView quantityTextView = view.findViewById(R.id.product_quantity);
 
         // Find the columns of book attributes that we're interested in

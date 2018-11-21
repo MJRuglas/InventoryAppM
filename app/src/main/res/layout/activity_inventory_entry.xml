@@ -143,6 +143,7 @@
             android:layout_marginTop="0dp"
             android:background="@color/colorAccent"
             android:text="@string/supplier_call"
+            android:onClick="callSupplier"
             android:textSize="12sp"
             android:focusable="false"
             android:textColor="#fff"/>
